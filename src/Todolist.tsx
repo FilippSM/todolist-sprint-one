@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { AddForm } from "./AddForm"
 import { FilterValuesType, TaskType } from "./App"
 import { Button } from "./Button"
@@ -19,8 +19,9 @@ export function Todolist(props: TodoListPropsType) {
 
     //проверяем пустой ли список условный рендеринг
 
-    const taskInputRef = useRef<HTMLInputElement>(null)
+    /*  const taskInputRef = useRef<HTMLInputElement>(null) */
 
+    const [taskTitle, setTaskTitle] = useState("")
 
     const tasksList = props.task.length === 0
         ? <span>Your todolist is empty</span>
@@ -38,21 +39,30 @@ export function Todolist(props: TodoListPropsType) {
             }
         </ul>
 
+            const isAddTaskPossible = taskTitle.length < 15 
+
     return (
         <div className="App">
             <div>
                 <TodolistHeader title={props.title} />
                 <div>
-                    <input ref={taskInputRef} />
-                    <Button title="+" onClickHandler={() => {
+                    <input
+                        value={taskTitle}
+                        onChange={(e) => setTaskTitle(e.currentTarget.value)}
 
-                        if (taskInputRef.current) {
-                            props.addTask(taskInputRef.current.value)
-                            taskInputRef.current.value = ""
-                        }
-                    }} />
+                    />
+                    <Button title="+" onClickHandler={() => {
+                        props.addTask(taskTitle)
+                        setTaskTitle("")
+                        
+                    }
+                   
+                    } 
+                    isBtnDisabled={!taskTitle.length || !isAddTaskPossible}
+                    />
                 </div>
 
+                {taskTitle.length > 15 && <div>Task title is too long</div>}
                 {/* <AddForm /> */}
                 {tasksList}
                 <FilterButtons changeTodolistFilter={props.changeTodolistFilter} />

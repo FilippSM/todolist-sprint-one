@@ -1,10 +1,13 @@
 type ButtonPropsType = {
     title: string
     onClickHandler?: () => void
+    isBtnDisabled?: boolean
 }
 
-export const Button = ({title, onClickHandler}: ButtonPropsType) => {
+export const Button = ({title, onClickHandler, isBtnDisabled}: ButtonPropsType) => {
     return (
-        <button onClick={onClickHandler}>{title}</button>
+        <button 
+        disabled={isBtnDisabled}
+        onClick={onClickHandler}>{title}</button>
     )
 }
