@@ -51,18 +51,22 @@ export function Todolist(props: TodoListPropsType) {
                         onChange={(e) => setTaskTitle(e.currentTarget.value)}
 
                     />
-                    <Button title="+" onClickHandler={() => {
+                    <Button 
+                        title="+" 
+                        onClickHandler={() => {
                         props.addTask(taskTitle)
                         setTaskTitle("")
-                        
-                    }
-                   
-                    } 
+                    }} 
+
                     isBtnDisabled={!taskTitle.length || !isAddTaskPossible}
                     />
                 </div>
 
-                {taskTitle.length > 15 && <div>Task title is too long</div>}
+{/*                 {taskTitle.length > 15 && <div>Task title is too long</div>}
+ */}                
+                {!isAddTaskPossible && <div>Task title is too long</div>}
+                {!taskTitle.length && <div>Enter task title 15 char max</div>}
+                
                 {/* <AddForm /> */}
                 {tasksList}
                 <FilterButtons changeTodolistFilter={props.changeTodolistFilter} />
