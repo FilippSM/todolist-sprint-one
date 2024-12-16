@@ -49,7 +49,7 @@ export function Todolist(props: TodoListPropsType) {
     const setLocalTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setTaskTitle(e.currentTarget.value)
 
     const onKeyDownAddTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        (!taskTitle.length || !isAddTaskPossible) && e.key === "Enter" && addTaskHandler()
+        (e.key === "Enter" && isAddTaskPossible && taskTitle.length > 0) && addTaskHandler();
     }
 
 

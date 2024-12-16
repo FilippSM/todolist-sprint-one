@@ -16,9 +16,7 @@ function App() {
     //BLL -бизнес логика
 
     const todolistTitle_1 = "one"
-
-    useState()
-
+    
     const [task_1, setTask_1] = useState<Array<TaskType>>([
         {id: v1(), title: "HTML&CSS", isDone: true},
         {id: v1(), title: "JS", isDone: true},
