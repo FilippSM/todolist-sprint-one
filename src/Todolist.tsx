@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { ChangeEvent, KeyboardEvent, useRef, useState } from "react"
 import { AddForm } from "./AddForm"
 import { FilterValuesType, TaskType } from "./App"
 import { Button } from "./Button"
@@ -39,7 +39,19 @@ export function Todolist(props: TodoListPropsType) {
             }
         </ul>
 
-            const isAddTaskPossible = taskTitle.length < 15 
+    const isAddTaskPossible = taskTitle.length < 15
+
+    const addTaskHandler = () => {
+        props.addTask(taskTitle)
+        setTaskTitle("")
+    }
+
+    const setLocalTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setTaskTitle(e.currentTarget.value)
+
+    const onKeyDownAddTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        (!taskTitle.length || !isAddTaskPossible) && e.key === "Enter" && addTaskHandler()
+    }
+
 
     return (
         <div className="App">
@@ -48,25 +60,22 @@ export function Todolist(props: TodoListPropsType) {
                 <div>
                     <input
                         value={taskTitle}
-                        onChange={(e) => setTaskTitle(e.currentTarget.value)}
-
+                        onChange={setLocalTitleHandler}
+                        onKeyDown={onKeyDownAddTaskHandler}
                     />
-                    <Button 
-                        title="+" 
-                        onClickHandler={() => {
-                        props.addTask(taskTitle)
-                        setTaskTitle("")
-                    }} 
-
-                    isBtnDisabled={!taskTitle.length || !isAddTaskPossible}
+                    <Button
+                        title="+"
+                        onClickHandler={addTaskHandler}
+                        isBtnDisabled={!taskTitle.length || !isAddTaskPossible}
+                        
                     />
                 </div>
 
-{/*                 {taskTitle.length > 15 && <div>Task title is too long</div>}
- */}                
+                {/*                 {taskTitle.length > 15 && <div>Task title is too long</div>}
+ */}
                 {!isAddTaskPossible && <div>Task title is too long</div>}
                 {!taskTitle.length && <div>Enter task title 15 char max</div>}
-                
+
                 {/* <AddForm /> */}
                 {tasksList}
                 <FilterButtons changeTodolistFilter={props.changeTodolistFilter} />
