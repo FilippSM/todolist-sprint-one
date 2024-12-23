@@ -17,6 +17,7 @@ type TodoListPropsType = {
 
 export function Todolist(props: TodoListPropsType) {
     const [taskTitle, setTaskTitle] = useState("")
+    const [error, setError] = useState<boolean>(false)
 
     const tasksList = props.task.length === 0
         ? <span>Your todolist is empty</span>
@@ -44,11 +45,19 @@ export function Todolist(props: TodoListPropsType) {
 
 
     const addTaskHandler = () => {
-        props.addTask(taskTitle)
+        const trimmedTitle = taskTitle.trim()
+        if(trimmedTitle) {
+            props.addTask(trimmedTitle)
+        } else {
+            setError(true)
+        }
         setTaskTitle("")
     }
 
-    const setLocalTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setTaskTitle(e.currentTarget.value)
+    const setLocalTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        error && setError(false)
+        setTaskTitle(e.currentTarget.value)
+    }
 
     const onKeyDownAddTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         (e.key === "Enter" && isAddTaskPossible && taskTitle.length > 0) && addTaskHandler();
@@ -64,6 +73,7 @@ export function Todolist(props: TodoListPropsType) {
                         value={taskTitle}
                         onChange={setLocalTitleHandler}
                         onKeyDown={onKeyDownAddTaskHandler}
+                        className={error ? "inputError" : ""}
                     />
                     <Button
                         title="+"
@@ -77,7 +87,7 @@ export function Todolist(props: TodoListPropsType) {
  */}
                 {!isAddTaskPossible && <div>Task title is too long</div>}
                 {!taskTitle.length && <div>Enter task title 15 char max</div>}
-
+                {error && <div style={{color: "red"}}>Task title is required</div>}    
                 {/* <AddForm /> */}
                 {tasksList}
                 <FilterButtons 
