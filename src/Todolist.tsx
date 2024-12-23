@@ -32,7 +32,7 @@ export function Todolist(props: TodoListPropsType) {
                                 checked={t.isDone} 
                                 onChange={changeTaskStatusHandler}
                                 />
-                            <span className={t.isDone ? "task" : "task-done"}>{t.title}</span>
+                            <span className={t.isDone ? "task-done" : "task"}>{t.title}</span>
                             <Button title="x" onClickHandler={() => { props.removeTask(t.id) }} />
                         </li>
                     )
