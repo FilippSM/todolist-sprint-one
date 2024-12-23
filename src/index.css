@@ -12,6 +12,11 @@ code {
     monospace;
 }
 
-.box{
-  display: flex;
+.App > div {
+  margin-right: 50px;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 10px 5px 0px;
+  background-color: aqua;
 }

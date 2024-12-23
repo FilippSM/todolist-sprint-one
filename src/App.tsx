@@ -23,9 +23,31 @@ function App() {
         {id: v1(), title: "REACT", isDone: false},
     ])
  
+    //crud logic
+    //C
+    const addTask = (title: string) => {
+        const newTask: TaskType = {
+            id: v1(),
+            title: title,
+            isDone: false
+        }
+        const nextState: Array<TaskType> = [newTask, ...task_1]
+        setTask_1(nextState)
+    }
+//U-1
+    const changeTaskStatus = (taskId: string, newStatus: boolean) => {
+        const nextState: Array<TaskType> = task_1.map(t => t.id === taskId ? {...t, isDone: newStatus}: t)
+        setTask_1(nextState)
+    }
+//D
+    const removeTask = (taskId: string) => {
+        const nextState = task_1.filter(t => t.id !== taskId)
+        setTask_1(nextState);
+    }
+
    /*  UI */
     const [filter, setNextFilter] = useState<FilterValuesType>("all")
-
+//R
     const changeTodolistFilter = (nextFilter: FilterValuesType) => {
         setNextFilter(nextFilter)
     }
@@ -38,21 +60,7 @@ function App() {
         filtredTasks = task_1.filter(t => t.isDone === true)
     }
 
-    const removeTask = (taskId: string) => {
-        const nextState = task_1.filter(t => t.id !== taskId)
-        setTask_1(nextState);
-    }
-
-    const addTask = (title: string) => {
-        const newTask: TaskType = {
-            id: v1(),
-            title: title,
-            isDone: false
-        }
-        const nextState: Array<TaskType> = [newTask, ...task_1]
-        setTask_1(nextState)
-    }
-
+    
     return (
         <div className="box">
             <Todolist 
@@ -61,6 +69,7 @@ function App() {
             task={filtredTasks}
             removeTask = {removeTask}
             addTask={addTask}
+            changeTaskStatus={changeTaskStatus}
             />
         </div>
     );

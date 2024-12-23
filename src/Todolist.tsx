@@ -11,16 +11,10 @@ type TodoListPropsType = {
     addTask: (title: string) => void
     removeTask: (taskId: string) => void
     changeTodolistFilter: (nextFilter: FilterValuesType) => void
+    changeTaskStatus: (taskId: string, newStatus: boolean) => void
 }
 
 export function Todolist(props: TodoListPropsType) {
-    /*  export function Todolist({title, task}: TodoListPropsType)  можно сразу запихнуть */
-    /* const {title, task} = props  котокая запись через деструктуризацию*/
-
-    //проверяем пустой ли список условный рендеринг
-
-    /*  const taskInputRef = useRef<HTMLInputElement>(null) */
-
     const [taskTitle, setTaskTitle] = useState("")
 
     const tasksList = props.task.length === 0
@@ -28,9 +22,15 @@ export function Todolist(props: TodoListPropsType) {
         : <ul>
             {
                 props.task.map(t => {
+                    const changeTaskStatusHandler=(e: ChangeEvent<HTMLInputElement>)=> props.changeTaskStatus(t.id, e.currentTarget.checked)    
+
                     return (
                         <li key={t.id}>
-                            <input type="checkbox" checked={t.isDone} />
+                            <input
+                                type="checkbox" 
+                                checked={t.isDone} 
+                                onChange={changeTaskStatusHandler}
+                                />
                             <span>{t.title}</span>
                             <Button title="x" onClickHandler={() => { props.removeTask(t.id) }} />
                         </li>
@@ -40,6 +40,7 @@ export function Todolist(props: TodoListPropsType) {
         </ul>
 
     const isAddTaskPossible = taskTitle.length < 15
+
 
     const addTaskHandler = () => {
         props.addTask(taskTitle)
@@ -67,7 +68,7 @@ export function Todolist(props: TodoListPropsType) {
                         title="+"
                         onClickHandler={addTaskHandler}
                         isBtnDisabled={!taskTitle.length || !isAddTaskPossible}
-                        
+
                     />
                 </div>
 
