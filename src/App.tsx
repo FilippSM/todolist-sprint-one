@@ -46,8 +46,9 @@ function App() {
     }
 
    /*  UI */
+   //R
     const [filter, setNextFilter] = useState<FilterValuesType>("all")
-//R
+
     const changeTodolistFilter = (nextFilter: FilterValuesType) => {
         setNextFilter(nextFilter)
     }
@@ -70,6 +71,7 @@ function App() {
             removeTask = {removeTask}
             addTask={addTask}
             changeTaskStatus={changeTaskStatus}
+            filter={filter}
             />
         </div>
     );

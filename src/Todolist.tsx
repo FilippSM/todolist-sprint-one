@@ -12,6 +12,7 @@ type TodoListPropsType = {
     removeTask: (taskId: string) => void
     changeTodolistFilter: (nextFilter: FilterValuesType) => void
     changeTaskStatus: (taskId: string, newStatus: boolean) => void
+    filter: FilterValuesType
 }
 
 export function Todolist(props: TodoListPropsType) {
@@ -31,7 +32,7 @@ export function Todolist(props: TodoListPropsType) {
                                 checked={t.isDone} 
                                 onChange={changeTaskStatusHandler}
                                 />
-                            <span>{t.title}</span>
+                            <span className={t.isDone ? "task" : "task-done"}>{t.title}</span>
                             <Button title="x" onClickHandler={() => { props.removeTask(t.id) }} />
                         </li>
                     )
@@ -79,7 +80,10 @@ export function Todolist(props: TodoListPropsType) {
 
                 {/* <AddForm /> */}
                 {tasksList}
-                <FilterButtons changeTodolistFilter={props.changeTodolistFilter} />
+                <FilterButtons 
+                changeTodolistFilter={props.changeTodolistFilter} 
+                filter={props.filter}
+                />
             </div>
         </div>
     )

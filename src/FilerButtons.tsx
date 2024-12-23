@@ -3,14 +3,22 @@ import { Button } from "./Button"
 
 type FilterButtonsPropsType = {
     changeTodolistFilter: (nextFilter: FilterValuesType) => void
+    filter: FilterValuesType
 }
 
-export const FilterButtons = ({changeTodolistFilter}: FilterButtonsPropsType) => {
+export const FilterButtons = ({ changeTodolistFilter }: FilterButtonsPropsType) => {
     return (
         <div>
-            <Button title="All" onClickHandler={() => { changeTodolistFilter("all") }}/>
-            <Button title="Active" onClickHandler={() => { changeTodolistFilter("active") }}/>
-            <Button title="Completed" onClickHandler={() => { changeTodolistFilter("completed") }}/>
+            <Button
+                classes="filter-btn-active"
+                title="All"
+                onClickHandler={() => { changeTodolistFilter("all") }} />
+            <Button
+                title="Active"
+                onClickHandler={() => { changeTodolistFilter("active") }} />
+            <Button
+                title="Completed"
+                onClickHandler={() => { changeTodolistFilter("completed") }} />
         </div>
     )
 }
