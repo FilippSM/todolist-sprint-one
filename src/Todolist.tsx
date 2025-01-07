@@ -8,11 +8,13 @@ import { TodolistHeader } from "./TodolistHeader"
 type TodoListPropsType = {
     title: string
     task: Array<TaskType>
-    addTask: (title: string) => void
-    removeTask: (taskId: string) => void
-    changeTodolistFilter: (nextFilter: FilterValuesType) => void
-    changeTaskStatus: (taskId: string, newStatus: boolean) => void
+    addTask: (title: string, todolistId: string) => void
+    removeTask: (taskId: string, todolistId: string) => void
+    changeTodolistFilter: (todolistId: string, filter: FilterValuesType) => void
+    changeTaskStatus: (taskId: string, newStatus: boolean, todolistId: string) => void
+    removeTodolist: (todolistId: string) => void
     filter: FilterValuesType
+    id: string
 }
 
 export function Todolist(props: TodoListPropsType) {
@@ -24,7 +26,7 @@ export function Todolist(props: TodoListPropsType) {
         : <ul>
             {
                 props.task.map(t => {
-                    const changeTaskStatusHandler=(e: ChangeEvent<HTMLInputElement>)=> props.changeTaskStatus(t.id, e.currentTarget.checked)    
+                    const changeTaskStatusHandler=(e: ChangeEvent<HTMLInputElement>)=> props.changeTaskStatus(t.id, e.currentTarget.checked, props.id)    
 
                     return (
                         <li key={t.id}>
@@ -34,7 +36,7 @@ export function Todolist(props: TodoListPropsType) {
                                 onChange={changeTaskStatusHandler}
                                 />
                             <span className={t.isDone ? "task-done" : "task"}>{t.title}</span>
-                            <Button title="x" onClickHandler={() => { props.removeTask(t.id) }} />
+                            <Button title="x" onClickHandler={() => { props.removeTask(t.id, props.id) }} />
                         </li>
                     )
                 })
@@ -47,7 +49,7 @@ export function Todolist(props: TodoListPropsType) {
     const addTaskHandler = () => {
         const trimmedTitle = taskTitle.trim()
         if(trimmedTitle) {
-            props.addTask(trimmedTitle)
+            props.addTask(trimmedTitle, props.id)
         } else {
             setError(true)
         }
@@ -67,7 +69,7 @@ export function Todolist(props: TodoListPropsType) {
     return (
         <div className="App">
             <div>
-                <TodolistHeader title={props.title} />
+                <TodolistHeader title={props.title} removeTodolist={props.removeTodolist} todolistId={props.id}/>
                 <div>
                     <input
                         value={taskTitle}
@@ -93,6 +95,7 @@ export function Todolist(props: TodoListPropsType) {
                 <FilterButtons 
                 changeTodolistFilter={props.changeTodolistFilter} 
                 filter={props.filter}
+                id={props.id}
                 />
             </div>
         </div>

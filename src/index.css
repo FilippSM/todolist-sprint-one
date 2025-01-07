@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.box {
+  display: flex;
+}
+
 .App > div {
   margin-right: 50px;
   border: 2px solid black;

@@ -1,9 +1,11 @@
 type TodolistHeaderPropsType = {
     title: string
+    removeTodolist: (todolistId: string) => void
+    todolistId: string
 }
 
-export const TodolistHeader = ({title}: TodolistHeaderPropsType) => {
+export const TodolistHeader = ({title, removeTodolist, todolistId}: TodolistHeaderPropsType) => {
     return (
-        <h3>{title}</h3>
+        <h3>{title} <button onClick={() => {removeTodolist(todolistId)}}>x</button></h3>
     )
 }
